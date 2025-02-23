@@ -1,10 +1,13 @@
 from database.DB_connect import DBConnect
-from model.Address import Address
+from model.address import Address
+from model.fornitore import Fornitore
+from model.product import Product
 
 
 class DAO():
     def __init__(self):
         pass
+
 
     @staticmethod
     def getAllQuartiere():
@@ -15,6 +18,7 @@ class DAO():
                     FROM tesi299809.civicmilano
                     WHERE ID_NIL IS NOT NULL
                     GROUP BY NIL
+                    HAVING numero_ID_NIL < 1200 AND numero_ID_NIL > 100
                     ORDER BY ID_NIL  """
         cursor.execute(query, )
         for row in cursor:
@@ -36,6 +40,35 @@ class DAO():
         cursor.execute(query, (SelQuartiere[0], ))
         for row in cursor:
             result.append(Address(**row))
+        cursor.close()
+        conn.close()
+        return result
+
+    @staticmethod
+    def getAllProducts():
+        conn = DBConnect.get_connection()
+        result = []
+        cursor = conn.cursor(dictionary=True)
+        query = """ select i.item_id , i.name, i.category, i.price, i.short_description, i.depth, i.height, i.width
+                    from tesi299809.ikeaproducts i 
+                    where i.`depth` is not null and i.height is not null and i.width is not null"""
+        cursor.execute(query, )
+        for row in cursor:
+            result.append(Product(row['item_id'], row['name'], row['category'], row['price'], row['short_description'], row['depth'], row['height'], row['width']))
+        cursor.close()
+        conn.close()
+        return result
+
+    @staticmethod
+    def getAllFornitori():
+        conn = DBConnect.get_connection()
+        result = []
+        cursor = conn.cursor(dictionary=True)
+        query = """select *
+                    from tesi299809.fornitori f """
+        cursor.execute(query, )
+        for row in cursor:
+            result.append(Fornitore(**row))
         cursor.close()
         conn.close()
         return result
