@@ -1,7 +1,7 @@
 from itertools import permutations, product as permutations_product
 import copy
-
-
+from database.DB_connect import DBConnect
+from model.fornitore import Fornitore
 
 def permutazioni(lista_di_liste):
     permutazioni_sottoliste = [list(permutations(sottolista)) for sottolista in
@@ -32,11 +32,26 @@ def trova_combinazioni(listConsegne, assegnamento_corrente, risultato):
         trova_combinazioni(listConsegne[1:], assegnamento_corrente, risultato)
         assegnamento_corrente.pop()
 
+def testConnessioneDatabase():
+    conn = DBConnect.get_connection()
+    result = []
+    cursor = conn.cursor(dictionary=True)
+    query = """select *
+                from tesi299809.fornitori f """
+    cursor.execute(query, )
+    for row in cursor:
+        result.append(Fornitore(**row))
+    cursor.close()
+    conn.close()
+    return result
 
 
 if __name__ == "__main__":
     lista = [1, 2, 3, 4]
     trova_combinazioni(lista, [], [])
+    connessione = testConnessioneDatabase()
+    for fornitore in connessione:
+        print(fornitore)
 
 
 

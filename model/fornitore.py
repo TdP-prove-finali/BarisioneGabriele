@@ -9,7 +9,7 @@ class Fornitore:
     COSTO_AL_CHILOMETRO: float
 
     def __str__(self):
-        return f"{self.ID_FORNITORE}"
+        return f"{self.ID_FORNITORE} {self.NOME_FORNITORE}"
 
     def __hash__(self):
         return hash(self.ID_FORNITORE)
