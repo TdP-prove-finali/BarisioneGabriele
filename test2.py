@@ -40,32 +40,3 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-"""
-
-    def calcola_costi(self, perm_comb_lista):
-        costo = 0
-        viaggio = 0
-        for drone in perm_comb_lista:
-            costo = costo + self.costoFisso
-            viaggio += 1
-            print("viaggio ", viaggio, "||    costo ", costo)
-            for i in range(len(drone) - 1):
-                nodo1 = drone[i][1]
-                nodo2 = drone[i + 1][1]
-                peso = self.getPeso(nodo1, nodo2)
-                if peso is not None:
-                    costo += peso
-                else:
-                    print(f"Non esiste un arco tra {nodo1} e {nodo2}")
-                    return None
-        print("costo TOTALE.    ", costo)
-        if self.costoBest == 0 or costo < self.costoBest:
-            self.costoBest = costo
-            self._solBest = copy.deepcopy(perm_comb_lista)
-        return costo
-        
-        """
